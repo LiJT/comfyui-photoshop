@@ -150,7 +150,7 @@ class ComfyUIToPhotoshop(SaveImage):
         self.output_dir = folder_paths.get_temp_directory()
         self.type = "temp"
         self.prefix_append = "_temp_"
-        self.compress_level = 4
+        self.compress_level = 1
 
     @staticmethod
     def INPUT_TYPES():
@@ -173,15 +173,18 @@ class ComfyUIToPhotoshop(SaveImage):
         except Exception as e:
             print(f"_PS_ error on send2Ps: {e}")
 
-    def execute(
+    async def execute(
         self,
         output: torch.Tensor,
         filename_prefix="PS_OUTPUTS",
         prompt=None,
         extra_pnginfo=None,
     ):
-        x = self.save_images(output, filename_prefix, prompt, extra_pnginfo)
-        asyncio.run(self.connect_to_backend(x["ui"]["images"][0]["filename"]))
+        # x = self.save_images(output, filename_prefix, prompt, extra_pnginfo)
+        # asyncio.run(self.connect_to_backend(x["ui"]["images"][0]["filename"]))
+        # return x        
+        x = self.save_images(output, filename_prefix, prompt, extra_pnginfo)    
+        await self.connect_to_backend(x["ui"]["images"][0]["filename"])       
         return x
 
 
