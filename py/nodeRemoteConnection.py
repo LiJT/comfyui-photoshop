@@ -44,7 +44,7 @@ class PhotoshopConnections:
 
         ImgScript = f"""var saveFile = new File("{self.ImgDir}"); var jpegOptions = new JPEGSaveOptions(); jpegOptions.quality = 85; activeDocument.saveAs(saveFile, jpegOptions, true);"""
 
-        Maskscript = f"""try{{var e=app.activeDocument,a=e.selection.bounds,t=e.activeHistoryState,i=e.artLayers.add(),s=new SolidColor,r=e.artLayers.add(),l=new SolidColor,c=new File("{{self.MaskDir}}"),n=new JPEGSaveOptions;function o(){{s.rgb.hexValue="000000",l.rgb.hexValue="FFFFFF",e.activeLayer=r,e.selection.fill(l),e.activeLayer=i,e.selection.selectAll(),e.selection.fill(s),n.quality=70,e.saveAs(c,n,!0),e.activeHistoryState=t}}e.suspendHistory("Mask Applied","main()")}}catch(y){{File("{{self.MaskDir}}").remove()}}"""
+        Maskscript = f"""try{{var e=app.activeDocument,a=e.selection.bounds,t=e.activeHistoryState,i=e.artLayers.add(),s=new SolidColor,r=e.artLayers.add(),l=new SolidColor,c=new File("{{self.MaskDir}}"),n=new JPEGSaveOptions;function o(){{s.rgb.hexValue="000000",l.rgb.hexValue="FFFFFF",e.activeLayer=r,e.selection.fill(l),e.activeLayer=i,e.selection.selectAll(),e.selection.fill(s),n.quality=1,e.saveAs(c,n,!0),e.activeHistoryState=t}}e.suspendHistory("Mask Applied","main()")}}catch(y){{File("{{self.MaskDir}}").remove()}}"""
 
         with PhotoshopConnection(password=password, host=Server, port=port) as ps_conn:
             ps_conn.execute(ImgScript)
